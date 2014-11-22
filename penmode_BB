@@ -1,0 +1,168 @@
+#!/bin/sh
+##
+# Menu creator
+##
+# Authors: @Pinperepette, @Ludo237
+
+########################## Initialize Important Variables ##################
+prog="Penmode BackBox Edition"
+dim=$(cat '/opt/penmode_BB/settings/dim.txt')
+WH=$(cat /opt/penmode_BB/settings/path/wh.txt)
+JS=$(cat /opt/penmode_BB/settings/path/js.txt)
+NK=$(cat /opt/penmode_BB/settings/path/nk.txt)
+NM=$(cat /opt/penmode_BB/settings/path/nm.txt)
+Encoding=UTF-8
+
+########################### Dynamic Menu ##################################
+menu_dinamico_b=$(cat /opt/penmode_BB/settings/dinamic_menu/modules.txt | while read modulo_b
+do
+    label_b=$(echo $modulo_b | awk -F';' '{print $1}')
+    action_b=$(echo $modulo_b | awk -F';' '{print $2}')
+    icon_b=$(echo $modulo_b | awk -F';' '{print $3}')
+    menu_b=$(echo "<menuitem image-name=\"$icon_b\" label=\"$label_b\"><height>$dim</height><action>$action_b &</action></menuitem>")
+echo $menu_b
+done)
+menu_dinamico_d=$(cat /opt/penmode_BB/settings/dinamic_menu/stress.txt | while read modulo_d
+do
+    label_d=$(echo $modulo_d | awk -F';' '{print $1}')
+    action_d=$(echo $modulo_d | awk -F';' '{print $2}')
+    icon_d=$(echo $modulo_d | awk -F';' '{print $3}')
+    menu_d=$(echo "<menuitem image-name=\"$icon_d\" label=\"$label_d\"><height>$dim</height><action>$action_d &</action></menuitem>")
+echo $menu_d
+done)
+
+########################### Start GTK Dialog Window ###########################
+[ -z $GTKDIALOG ] && GTKDIALOG=gtkdialog
+MAIN_DIALOG='
+<window window_position="1" title="Penmode BackBox Edition" resizable="false"  image-name="/opt/penmode_BB/images/icons/bb.png">
+    <vbox spacing="0">
+        <menubar>
+            <menu use-underline="true">
+                '$menu_dinamico_b'
+                <label>"Modules"</label>
+            </menu>
+            <menu use-underline="true">
+                '$menu_dinamico_d'
+                <label>"Stress Testing"</label>
+            </menu>
+            <menu use-underline="true">
+                <menuitem image-name="/opt/penmode_BB/images/icons/settings.png" label="Settings">
+                    <height>'$dim'</height>
+                    <action>/opt/penmode_BB/settings/settings &</action>
+                </menuitem>	
+                <menuitem image-name="/opt/penmode_BB/images/icons/settings.png" label="Path">
+                    <height>'$dim'</height>
+                    <action>/opt/penmode_BB/settings/settings_path &</action>
+                </menuitem>					
+                <menuitem image-name="/opt/penmode_BB/images/icons/inf.png" label="Info">
+                    <height>'$dim'</height>
+                    <action>/opt/penmode_BB/modules/info &</action>
+                </menuitem>						
+                <label>"   Settings   "</label>
+            </menu>
+        </menubar>
+        <pixmap>
+            <input file>/opt/penmode_BB/images/space.png</input>
+        </pixmap>
+        <pixmap>
+            <input file>/opt/penmode_BB/images/logo.gif</input>
+        </pixmap>
+        <pixmap>
+            <input file>/opt/penmode_BB/images/space.png</input>
+        </pixmap>
+
+        <frame TARGET>
+            <hbox>
+                <entry><variable>TARGET</variable></entry> 
+                <button>
+                    <input file>/opt/penmode_BB/images/icons/folder.png</input>
+                    <width>30</width>
+                    <action>thunar /opt/penmode_BB/ouput &</action>
+                </button>        
+            </hbox>
+        </frame>
+
+        <hbox>
+            <pixmap>
+                <input file>/opt/penmode_BB/images/space.png</input>
+            </pixmap>
+        </hbox>
+
+        <frame INFORMATION GATHERING>
+            <hbox>
+                <pixmap>
+                    <input file>/opt/penmode_BB/images/barra.gif</input>
+                </pixmap>
+                <button>
+                    <input file>/opt/penmode_BB/images/icons/cercaurl.png</input>
+                    <width>30</width>
+                    <label> SEARCH URL </label>
+                    <action>/opt/penmode_BB/modules/serch_url &</action>
+                </button>
+                <button>
+                    <input file>/opt/penmode_BB/images/icons/web.png</input>
+                    <width>30</width>
+                    <label>WHATWEB </label>
+                    <action>/opt/penmode_BB/modules/terminal/whatweb &</action>
+                </button>
+                <button>
+                    <input file>/opt/penmode_BB/images/icons/nmap.png</input>
+                    <width>30</width>
+                    <label>NMAP </label>
+                    <action>/opt/penmode_BB/modules/terminal/nmap &</action>
+                </button> 
+            </hbox>    
+        </frame>
+
+        <frame SCANNER>
+            <hbox>
+                <button>
+                    <input file>/opt/penmode_BB/images/icons/typo3.png</input>
+                    <width>30</width>
+                    <label>TYPO 3 </label>
+                    <action>/opt/penmode_BB/modules/typo3 &</action>
+                </button>
+                <button>
+                    <input file>/opt/penmode_BB/images/icons/wpscan.png</input>
+                    <width>30</width>
+                    <label>WPSCAN </label>
+                    <action>/opt/penmode_BB/modules/wpscan &</action>
+                </button> 
+                <button>
+                    <label>JOOMSCAN</label>
+                    <input file>/opt/penmode_BB/images/icons/joomla.png</input>
+                    <width>30</width>
+                    <action>/opt/penmode_BB/modules/terminal/joomscan &</action> 
+                </button>
+                <button>
+                    <label>NIKTO</label>
+                    <input file>/opt/penmode_BB/images/icons/nikto.png</input>
+                    <width>30</width>
+                    <action>/opt/penmode_BB/modules/nikto &</action> 
+                </button>
+            </hbox>
+        </frame>
+    </vbox>
+    <entry>
+        <default>'$WH'</default>
+        <variable>WH</variable>
+    </entry>
+    <entry>
+        <default>'$JS'</default>
+        <variable>JS</variable>
+    </entry>
+    <entry>
+        <default>'$NK'</default>
+        <variable>NK</variable>
+    </entry>
+    <entry>
+        <default>'$NM'</default>
+        <variable>NM</variable>
+    </entry>
+</window>
+'
+export MAIN_DIALOG
+case $1 in
+	-d | --dump) echo "$MAIN_DIALOG" ;;
+	*) $GTKDIALOG --program=MAIN_DIALOG ;;
+esac

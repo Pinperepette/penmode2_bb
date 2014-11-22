@@ -1,0 +1,50 @@
+#!/bin/bash
+# Autori:
+#
+# @Pinperepette	
+# @Daniele_KK
+#########################################################################
+#  This program is free software; you can redistribute it and/or modify #
+#  it under the terms of the GNU General Public License as published by #
+#  the Free Software Foundation; either version 2 of the License, or    #
+#  (at your option) any later version.                                  #
+#                                                                       #
+#  This program is distributed in the hope that it will be useful,      #
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of       #
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        #
+#  GNU General Public License for more details.                         #
+#                                                                       #
+#  You should have received a copy of the GNU General Public License    #
+#  along with this program; if not, write to the Free Software          #
+#  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,           #
+#  MA 02110-1301, USA.                                                  #
+############################# DISCALIMER ################################
+#  Usage of this software for probing/attacking targets without prior   #
+#  mutual consent, is illegal. It's the end user's responsability to    #
+#  obey alla applicable local laws. Developers assume no liability and  #
+#  are not responible for any missue or damage caused by thi program    #
+#########################################################################
+#la variabile partA è la richiesta site:
+partA="site:"
+query="$partA$TARGET"
+echo "$TARGET"
+	if [ "$livel" == "Ghost Scan" ]; then
+		pz="0 10 20 30 40 50 60 70 80"
+    elif [ "$livel" == "Default Scan" ]; then
+        pz="0 10 20 30 40 50 60 70 80 100 120 140 160"
+    else 
+        pz="0 10 20 30 40 50 60 70 80 100 120 140 160 180 200 220 240 260 280 300"     
+fi
+for paginazione in $pz
+do
+sleep $sleep
+echo "######################## Please Wait #############################"
+stream=$(curl -A "Mozilla/4.0" -skLm 10 \
+"http://google.it/search?q=\"$query\"&start=$paginazione" |\
+grep -oP '\/url\?q=.+?&amp' | sed 's/\/url?q=//;s/&amp//');
+echo -e "${stream//\%/\x}" >> temp.txt
+done
+sort temp.txt | uniq > '/opt/penmode_BB/ouput/url.txt'
+rm temp.txt
+head '/opt/penmode_BB/ouput/url.txt'
+

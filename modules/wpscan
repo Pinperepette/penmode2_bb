@@ -1,0 +1,129 @@
+#!/bin/sh
+# Autori:
+# @Pinperepette	
+# @Daniele_KK
+#########################################################################
+#  This program is free software; you can redistribute it and/or modify #
+#  it under the terms of the GNU General Public License as published by #
+#  the Free Software Foundation; either version 2 of the License, or    #
+#  (at your option) any later version.                                  #
+#                                                                       #
+#  This program is distributed in the hope that it will be useful,      #
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of       #
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        #
+#  GNU General Public License for more details.                         #
+#                                                                       #
+#  You should have received a copy of the GNU General Public License    #
+#  along with this program; if not, write to the Free Software          #
+#  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,           #
+#  MA 02110-1301, USA.                                                  #
+############################# DISCALIMER ################################
+#  Usage of this software for probing/attacking targets without prior   #
+#  mutual consent, is illegal. It's the end user's responsability to    #
+#  obey alla applicable local laws. Developers assume no liability and  #
+#  are not responible for any missue or damage caused by thi program    #
+#########################################################################
+prog="Penmode Backbox Edition"
+WP=$(cat /opt/penmode_BB/settings/path/wp.txt)
+echo $WP
+Encoding=UTF-8
+if [ -z "$TARGET" ]; then
+	notify-send -t 8000 -i /opt/penmode_BB/images/icons/alert.png 'Alert' 'Enter the Target'
+else
+[ -z $GTKDIALOG ] && GTKDIALOG=gtkdialog
+
+ echo $ip
+MAIN_DIALOG='
+<window title="Penmode BackBox Edition WPscan"resizable="false" image-name="/opt/penmode_BB/images/icons/wpscan.png" >
+        <vbox>
+		<pixmap>
+					<input file>/opt/penmode_BB/images/wpscan.gif</input>
+				</pixmap>
+			<frame TARGET>
+        <entry>
+			<default>'$TARGET'</default>
+			<variable>TARGET</variable>
+		</entry>
+		</frame>
+		<frame>
+		 <hbox>
+		 
+					 <button>
+                     <input file>/opt/penmode_BB/images/icons/generic.png</input>
+		             <width>30</width>
+                     <label>Generic</label>
+                     <action> /opt/penmode_BB/modules/terminal/Generic &</action>
+                     </button>
+                     
+                     <button>
+                     <input file>/opt/penmode_BB/images/icons/plugin.png</input>
+		             <width>30</width>
+                     <label>Plugins</label>
+                     <action>/opt/penmode_BB/modules/terminal/Plugins &</action>
+                     </button> 
+                     
+                     <button>
+                     <input file>/opt/penmode_BB/images/icons/themes.png</input>
+		             <width>30</width>
+                     <label>Themes</label>
+                     <action>/opt/penmode_BB/modules/terminal/Themes &</action>
+                     </button> 
+                     
+                     <button>
+                     <input file>/opt/penmode_BB/images/icons/thumbs.png</input>
+		             <width>30</width>
+                     <label>Thumbs</label>
+                     <action> /opt/penmode_BB/modules/terminal/Themes &</action>
+                     </button> 
+                     
+                     <button>
+                     <input file>/opt/penmode_BB/images/icons/cercauser.png</input>
+		             <width>30</width>
+                     <label>Users</label>
+                     <action>/opt/penmode_BB/modules/terminal/Users &</action>
+                     </button>
+            
+         </hbox> 
+         </frame>
+         <frame>
+         <hbox>
+                     <entry>
+                     <variable>file</variable>
+                     </entry>
+                     <button>
+                     <input file>/opt/penmode_BB/images/icons/add.png</input>
+                     <width>30</width>
+                     <variable>FILE_BROWSE</variable>
+                     <action type="fileselect">file</action>
+                     </button>
+                     
+                     <button>
+                     <input file>/opt/penmode_BB/images/icons/users2.png</input>
+		             <width>30</width>
+                     <label>BF psw Users</label>
+                     <action> /opt/penmode_BB/modules/terminal/UsersA &</action>
+                     </button> 
+                     
+                     <button>
+		             <input file>/opt/penmode_BB/images/icons/users.png</input>
+		             <width>30</width>
+                     <label>BF psw admin</label>
+                     <action>/opt/penmode_BB/modules/terminal/UsersB &</action>
+                     </button> 
+         </hbox>
+
+         </frame>          
+	 </vbox>
+	 		<entry>
+			<default>'$WP'</default>
+			<variable>WP</variable>
+		    </entry>
+</window>
+'
+export MAIN_DIALOG
+
+case $1 in
+	-d | --dump) echo "$MAIN_DIALOG" ;;
+	*) $GTKDIALOG --program=MAIN_DIALOG ;;
+esac
+fi

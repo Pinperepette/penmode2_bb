@@ -1,0 +1,73 @@
+#!/bin/sh
+# Autori:
+#
+# @Pinperepette	
+# @Daniele_KK
+#########################################################################
+#  This program is free software; you can redistribute it and/or modify #
+#  it under the terms of the GNU General Public License as published by #
+#  the Free Software Foundation; either version 2 of the License, or    #
+#  (at your option) any later version.                                  #
+#                                                                       #
+#  This program is distributed in the hope that it will be useful,      #
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of       #
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        #
+#  GNU General Public License for more details.                         #
+#                                                                       #
+#  You should have received a copy of the GNU General Public License    #
+#  along with this program; if not, write to the Free Software          #
+#  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,           #
+#  MA 02110-1301, USA.                                                  #
+############################# DISCALIMER ################################
+#  Usage of this software for probing/attacking targets without prior   #
+#  mutual consent, is illegal. It's the end user's responsability to    #
+#  obey alla applicable local laws. Developers assume no liability and  #
+#  are not responible for any missue or damage caused by thi program    #
+#########################################################################
+prog="Penmode Backbox Edition"
+result=""
+Encoding=UTF-8
+cd /opt/penmode_BB/modules/modulomd5crack
+[ -z $GTKDIALOG ] && GTKDIALOG=gtkdialog
+
+MAIN_DIALOG='
+<window title="Penmode MD5 Crack" resizable="false" image-name="/opt/penmode_BB/images/icons/bb.png" >
+        <vbox>
+		<pixmap>
+					<input file>/opt/penmode_BB/images/md5crack.gif</input>
+				</pixmap>
+		<frame CRACK WEB>		
+		<hbox>		
+		<text>
+				<label>MD5:</label>
+			</text>
+        <entry>
+			<variable>MD5</variable>
+		</entry>
+		<button>
+		<input file>/opt/penmode_BB/images/icons/lente.png</input>
+		<width>30</width>
+        <label> SEARCH </label>
+          <action>xterm -geometry 80x50 -hold -e /opt/penmode_BB/modules/modulomd5crack/crackweb &</action>
+        </button>
+	 </hbox>
+	 <hbox>
+	 <terminal has-focus="true"
+			    argv0="/bin/bash">
+				<height>20</height>
+                <width>50</width>
+
+				<input>echo ./md5.sh </input>
+
+			</terminal>
+	 </hbox>
+	 </frame>			
+	 </vbox>
+</window>
+'
+export MAIN_DIALOG
+
+case $1 in
+	-d | --dump) echo "$MAIN_DIALOG" ;;
+	*) $GTKDIALOG --program=MAIN_DIALOG ;;
+esac

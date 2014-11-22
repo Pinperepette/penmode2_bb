@@ -1,0 +1,110 @@
+#! /bin/bash
+if [ -z "$TARGET" ]; then
+	notify-send -t 8000 -i /opt/penmode_BB/images/icons/alert.png 'Alert' 'Enter the Target'
+else
+ip=`tor-resolve $TARGET`
+echo $ip
+export MAIN_DIALOG='
+	<window title="Penmode BackBox Edition Keep Dead"resizable="false" image-name="/opt/penmode_BB/images/icons/dead.png">
+	 <vbox>
+	 
+	 
+	<pixmap>
+					<input file>/opt/penmode_BB/images/keepdead.gif</input>
+				</pixmap>
+				
+					
+    <pixmap>
+					<input file>/opt/penmode_BB/images/space.png</input>
+				</pixmap>
+				
+				
+				<frame>
+				
+           <hbox>
+           
+       <text>
+			<label> TARGET :</label>
+			</text>
+        <entry>
+			<default>'$ip'</default>
+			<variable>targetip</variable>
+		</entry>
+		   </hbox>
+
+		  <vbox>
+		  
+		   <hbox>
+		  <text>
+			<label> REQUESTS :</label>
+			</text>
+        <entry>
+			<default>100000000</default>
+			<variable>requests</variable>
+		</entry> 
+		</hbox>
+		
+		<hbox>
+		
+		 <text>
+			<label> MAX REQUESTS FOR CONNECTION :</label>
+			</text>
+        <entry>
+			<default>100</default>
+			<variable>max</variable>
+		</entry> 
+		   </hbox>
+		   
+		<hbox>
+		 <text>
+			<label> NUMBER OF SECONDS TO DELAY BETWEEN OUTGOING REQUESTS :</label>
+			</text>
+        <entry>
+			<default>0.5</default>
+			<variable>delay</variable>
+		</entry> 
+		</hbox>
+		
+		<hbox>
+		
+		<text>
+			<label> BETWEEN R. :</label>
+			</text>
+        <entry>
+        
+			<default>0.01</default>
+			<variable>brequests</variable>
+		</entry>
+		 
+		</hbox>
+		</vbox>
+
+		
+		<hbox>
+		
+		<text>
+      <label>CHECH:</label>
+    </text>
+    
+    <combobox>
+      <variable>skip</variable>
+      <item>0</item>
+      <item>1</item>
+    </combobox> 
+    
+	     <button>
+         <input file>/opt/penmode_BB/images/icons/force.png</input>
+         <width>30</width>
+         <action>/opt/penmode_BB/modules/Keep/keep.sh &</action>
+         </button>
+         
+     </hbox>
+     
+     </frame>	 
+       
+</vbox>
+</window>
+'
+
+gtkdialog --program=MAIN_DIALOG
+fi

@@ -1,0 +1,70 @@
+#! /bin/bash
+Encoding=UTF-8
+dim=$(cat '/opt/penmode_BB/settings/dim.txt')
+serv=$(cat '/opt/penmode_BB/settings/serv.txt')
+export MAIN_DIALOG='
+<window window_position="1" title="Settings">
+
+<vbox>
+  <hbox homogeneous="True">
+    <frame Size Main Form>
+    <hbox homogeneous="True">
+      <hbox>
+      <pixmap>
+      <width>60</width>
+	  <input file>/opt/penmode_BB/images/icons/settings.png</input>
+	  </pixmap>
+      </hbox>
+      
+      <vbox homogeneous="True">
+        <button>
+        <input file>/opt/penmode_BB/images/icons/finestra.png</input>
+		<width>30</width>
+        <label>Normal </label>
+          <action>echo "2" > /opt/penmode_BB/settings/dimensione.txt &</action>
+        </button>
+
+        <button>
+        <input file>/opt/penmode_BB/images/icons/finestra.png</input>
+		<width>30</width>
+        <label>Small </label>
+          <action>echo "1" > /opt/penmode_BB/settings/dimensione.txt &</action>
+        </button>
+        
+      </vbox>
+    </hbox>
+    </frame>
+
+    <vbox>
+      <frame Size Icons Menu>
+
+       <text>
+			<label> Size :</label>
+			</text>
+        <entry>
+			<default>'$dim'</default>
+			<variable>size</variable>
+		</entry>
+		
+        <hbox>
+        <button>
+        <input file>/opt/penmode_BB/images/icons/save.png</input>
+		<width>30</width>
+          <action>echo $size > /opt/penmode_BB/settings/dim.txt &</action>
+        </button>
+        </hbox>
+        </frame>
+      </vbox>
+    </hbox>
+    <frame>
+    <text wrap="false" angle="5">
+	<label>"Changes will be present 
+	at the next reboot of 
+	Penmode Backbox Edition"</label>
+	</text>
+	</frame>		
+  </vbox>
+  </window>
+  '
+
+  gtkdialog --program=MAIN_DIALOG

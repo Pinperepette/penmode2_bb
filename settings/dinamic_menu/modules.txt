@@ -1,0 +1,3 @@
+Fake Mail;/opt/penmode_BB/modules/fakemail;/opt/penmode_BB/images/icons/mail.png
+md5 crack;/opt/penmode_BB/modules/md5crack;/opt/penmode_BB/images/icons/cripto.png
+Sqlmap ;/opt/penmode_BB/modules/penmode2sqlmap;/opt/penmode_BB/images/icons/sqlmap.png

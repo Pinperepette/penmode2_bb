@@ -1,0 +1,88 @@
+#!/bin/sh
+# Autori:
+# @Pinperepette	
+# @Daniele_KK
+#########################################################################
+#  This program is free software; you can redistribute it and/or modify #
+#  it under the terms of the GNU General Public License as published by #
+#  the Free Software Foundation; either version 2 of the License, or    #
+#  (at your option) any later version.                                  #
+#                                                                       #
+#  This program is distributed in the hope that it will be useful,      #
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of       #
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        #
+#  GNU General Public License for more details.                         #
+#                                                                       #
+#  You should have received a copy of the GNU General Public License    #
+#  along with this program; if not, write to the Free Software          #
+#  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,           #
+#  MA 02110-1301, USA.                                                  #
+############################# DISCALIMER ################################
+#  Usage of this software for probing/attacking targets without prior   #
+#  mutual consent, is illegal. It's the end user's responsability to    #
+#  obey alla applicable local laws. Developers assume no liability and  #
+#  are not responible for any missue or damage caused by thi program    #
+#########################################################################
+prog="Penmode Backbox Edition"
+if [ -z "$TARGET" ]; then
+	notify-send -t 8000 -i /opt/penmode_BB/images/icons/alert.png 'Alert' 'Enter the Target'
+else
+Encoding=UTF-8
+
+[ -z $GTKDIALOG ] && GTKDIALOG=gtkdialog
+
+ echo $ip
+MAIN_DIALOG='
+<window title="Typo 3 Penmode Backbox Edition"resizable="false" image-name="/opt/penmode_BB/images/icons/typo3.png" >
+        <vbox>
+		<pixmap>
+					<input file>/opt/penmode_BB/images/typo3.gif</input>
+				</pixmap>
+		<frame>
+		<hbox>
+		<frame TARGET>
+		<hbox>
+        <entry>
+			<default>'$TARGET'</default>
+			<variable>TARGET</variable>
+		</entry>
+         <button>
+            <label>  Generic  </label>
+            <input file>/opt/penmode_BB/images/icons/generic.png</input>
+		<width>30</width>
+		<action>/opt/penmode_BB/modules/terminal/typo &</action> 
+        </button>
+        </hbox>
+        </frame>		
+		</hbox>
+				                <pixmap>
+					<input file>/opt/penmode_BB/images/space.png</input>
+				</pixmap>
+		<frame REQUESTS>		
+        <hbox>
+        <entry>
+			<default>/etc/passwd</default>
+			<variable>requests</variable>
+		</entry> 
+        		<button>
+            <label>Advanced</label>
+            <input file>/opt/penmode_BB/images/icons/generic.png</input>
+		<width>30</width>
+		<action>/opt/penmode_BB/modules/terminal/typo1 &</action> 
+        </button>    
+		</hbox>
+		</frame>
+		 <pixmap>
+					<input file>/opt/penmode_BB/images/space.png</input>
+				</pixmap>
+		</frame>
+	 </vbox>
+</window>
+'
+export MAIN_DIALOG
+
+case $1 in
+	-d | --dump) echo "$MAIN_DIALOG" ;;
+	*) $GTKDIALOG --program=MAIN_DIALOG ;;
+esac
+fi

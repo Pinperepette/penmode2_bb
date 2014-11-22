@@ -1,0 +1,40 @@
+#!/bin/bash
+###
+# Main launcher of PenMode
+##
+# Authors: @pinperepette, @ludo237
+
+[ -z $GTKDIALOG ] && GTKDIALOG=gtkdialog
+
+progress() {
+	for i in $(seq 0 10 130); do
+		echo $i
+		[ "$i" -le 30 ] && echo "a greeting from the crew"
+		[ "$i" -le 60 -a "$i" -gt 30 ] && echo "load modules ..."
+		[ "$i" -gt 60 ] && echo "CoccoDio & Urcabalurca /all ..."
+		sleep 0.7
+
+	done;
+}; export -f progress
+
+export BAR_DIALOG='
+<window window_position="1" title="Penmode BackBox Edition" image-name="/opt/penmode_BB/images/icons/bb.png">
+    <vbox>
+        <hbox>
+            <pixmap>
+                <input file>/opt/penmode_BB/images/logo_bb.gif</input>
+            </pixmap>
+        </hbox>
+        <frame Progress>
+            <progressbar>
+                <label>Progress</label>
+                <input>bash -c progress</input>
+                <action function="closewindow">BAR_DIALOG</action>
+            </progressbar>
+        </frame>
+    </vbox>
+    <variable>BAR_DIALOG</variable>
+</window>
+'
+gtkdialog --program=BAR_DIALOG
+/opt/penmode_BB/penmode_BB

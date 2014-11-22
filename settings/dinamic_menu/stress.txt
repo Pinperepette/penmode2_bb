@@ -1,0 +1,2 @@
+Slowloris;/opt/penmode_BB/modules/penmode2dos;/opt/penmode_BB/images/icons/slowloris.png
+Keep Dead;/opt/penmode_BB/modules/penmode2keep;/opt/penmode_BB/images/icons/dead.png

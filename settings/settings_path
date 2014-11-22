@@ -1,0 +1,95 @@
+#! /bin/bash
+Encoding=UTF-8
+WP=$(cat /opt/penmode_BB/settings/path/wp.txt)
+WH=$(cat /opt/penmode_BB/settings/path/wh.txt)
+JS=$(cat /opt/penmode_BB/settings/path/js.txt)
+NK=$(cat /opt/penmode_BB/settings/path/nk.txt)
+NM=$(cat /opt/penmode_BB/settings/path/nm.txt)
+[ -z $GTKDIALOG ] && GTKDIALOG=gtkdialog
+MAIN_DIALOG='
+<window window_position="1" title="Penmode BackBox Edition Settings Path" resizable="false"  image-name="/opt/penmode_BB/images/icons/settings.png">
+		<vbox>
+ 		<pixmap>
+					<input file>/opt/penmode_BB/images/space.png</input>
+				</pixmap>       
+        <hbox>
+         <text>
+			<label> Wpscan : </label>
+			</text>
+        <entry>
+			<default>'$WP'</default>
+			<variable>WP</variable>
+		</entry>
+        <button>
+        <input file>/opt/penmode_BB/images/icons/save.png</input>
+		<width>30</width>
+          <action>echo $WP > /opt/penmode_BB/settings/path/wp.txt &</action>
+        </button>
+        </hbox>
+        <hbox>
+         <text>
+			<label> Whatweb : </label>
+			</text>
+        <entry>
+			<default>'$WH'</default>
+			<variable>WH</variable>
+		</entry>
+        <button>
+        
+        <input file>/opt/penmode_BB/images/icons/save.png</input>
+        
+		<width>30</width>
+          <action>echo $WH > /opt/penmode_BB/settings/path/wh.txt &</action>
+        </button>
+        </hbox>
+        <hbox>
+         <text>
+			<label> Joomscan : </label>
+			</text>
+        <entry>
+			<default>'$JS'</default>
+			<variable>JS</variable>
+		</entry>
+        <button>
+        <input file>/opt/penmode_BB/images/icons/save.png</input>
+		<width>30</width>
+          <action>echo $JS > /opt/penmode_BB/settings/path/js.txt &</action>
+        </button>
+        </hbox>
+        <hbox>
+         <text>
+			<label> Nikto : </label>
+			</text>
+        <entry>
+			<default>'$NK'</default>
+			<variable>NK</variable>
+		</entry>
+        <button>
+        <input file>/opt/penmode_BB/images/icons/save.png</input>
+		<width>30</width>
+          <action>echo $NK > /opt/penmode_BB/settings/path/nk.txt &</action>
+        </button>
+        </hbox>
+        <hbox>
+         <text>
+			<label> Nmap : </label>
+			</text>
+        <entry>
+			<default>'$NM'</default>
+			<variable>NM</variable>
+		</entry>
+        <button>
+        <input file>/opt/penmode_BB/images/icons/save.png</input>
+		<width>30</width>
+          <action>echo $NM > /opt/penmode_BB/settings/path/nm.txt &</action>
+        </button>
+        </hbox>
+       	</vbox>
+
+  </window>
+  '
+export MAIN_DIALOG
+case $1 in
+	-d | --dump) echo "$MAIN_DIALOG" ;;
+	*) $GTKDIALOG --program=MAIN_DIALOG ;;
+esac
